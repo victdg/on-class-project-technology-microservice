@@ -21,21 +21,29 @@ public class TechnologyUseCase implements TechnologyServicePort {
                 .flatMap(this::validateTechnologyFields)
                 .flatMap(tech -> technologyPersistencePort.existByName(tech.getName()))
                 .filter(exists -> !exists)
-                .switchIfEmpty(Mono.error(new ProcessingErrorException(TechnicalMessage.NAME_ALREADY_EXISTS)))
+                .switchIfEmpty(Mono.error(new ProcessingErrorException(TechnicalMessage.TECHNOLOGY_ALREADY_EXISTS)))
                 .flatMap(exists -> technologyPersistencePort.save(technology))
                 .map(Technology::getId)
                 .doOnError(ex-> System.out.println("Error occurred while registering technology: " + ex.getMessage()))
-                .onErrorResume(ex -> Mono.error(new TechnicalErrorException(TechnicalMessage.INTERNAL_ERROR)))
+//                .onErrorResume(ex -> Mono.error(new TechnicalErrorException(TechnicalMessage.INTERNAL_ERROR)))
                 ;
     }
 
     private Mono<Technology> validateTechnologyFields(Technology technology) {
-        if (technology.getName() == null || technology.getName().trim().isEmpty()
-                || technology.getDescription() == null || technology.getDescription().trim().isEmpty()) {
+        if (!isValidStringField(technology.getName(),1,50)
+                || !isValidStringField(technology.getDescription(),1,90)) {
+            System.out.println("Invalid technology fields: " + technology);
             return Mono.error(new BadRequestException(TechnicalMessage.INVALID_PARAMETERS));
         }
         return Mono.just(technology);
     }
-    
+
+    private boolean isValidStringField(Object field, int minLength, int maxLength) {
+        if (!(field instanceof String)) {
+            return false;
+        }
+        String str = (String) field;
+        return str.length() >= minLength && str.length() <= maxLength;
+    }
     
 }
