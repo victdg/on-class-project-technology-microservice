@@ -16,7 +16,13 @@ public enum TechnicalMessage {
     UNSUPPORTED_OPERATION("501", "Method not supported, please try again", ""),
     USER_CREATED("201", "User created successfully", ""),
     ADAPTER_RESPONSE_NOT_FOUND("404-0", "invalid email, please verify", ""),
-    USER_ALREADY_EXISTS("400","El usuario ya está registrado." ,"" );
+    USER_ALREADY_EXISTS("400","El usuario ya está registrado." ,"" ),
+    NAME_ALREADY_EXISTS("400", "El nombre ya está registrado.", "name"),
+    TECHNOLOGY_CREATED("201", "Technology created successfully", ""),
+    TECHNOLOGY_ALREADY_EXISTS("422", "Technology already exists", ""),
+
+
+    ;
 
     private final String code;
     private final String message;

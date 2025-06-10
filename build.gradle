@@ -31,11 +31,11 @@ dependencies {
 	implementation 'io.github.resilience4j:resilience4j-retry'
 	implementation 'io.github.resilience4j:resilience4j-bulkhead'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
-	implementation 'org.postgresql:r2dbc-postgresql'
+	implementation 'dev.miku:r2dbc-mysql' // Driver reactivo para MySQL
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 	compileOnly 'org.projectlombok:lombok:1.18.24'
 	annotationProcessor 'org.projectlombok:lombok:1.18.24'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
